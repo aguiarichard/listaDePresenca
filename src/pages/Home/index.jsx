@@ -23,7 +23,14 @@ export function Home() {
 
   return (
     <div className="container">
-      <h1>Lista de Presença</h1>
+      <header>
+        <h1>Lista de Presença</h1>
+
+        <div>
+          <strong>Richard</strong>
+          <img src="https://github.com/aguiarichard.png" alt="Foto de Perfil" />
+        </div>
+      </header>
 
       <input
         type="text"
