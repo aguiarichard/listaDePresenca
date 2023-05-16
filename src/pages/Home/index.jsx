@@ -1,12 +1,14 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 import "./styles.css"
 
 import { Card } from "../../components/Card"
+import imgAnonimo from "../../assets/anonimo.png"
 
 export function Home() {
   const [studentName, setStudentName] = useState('')
   const [students, setStudents] = useState([])
+  const [user, setUser] = useState({ name: "Anônimo", avatar: imgAnonimo })
 
   function handleAddStudent() {
     const newStudent = {
@@ -21,14 +23,32 @@ export function Home() {
     setStudents(prevStudent => [...prevStudent, newStudent])
   }
 
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch("https://api.github.com/users/aguiarichard")
+      const data = await response.json()
+
+      if (data.name) {
+        setUser({
+          name: data.name,
+          avatar: data.avatar_url
+        })
+      } else {
+        return
+      }
+    }
+
+    fetchData()
+  }, [students])
+
   return (
     <div className="container">
       <header>
         <h1>Lista de Presença</h1>
 
         <div>
-          <strong>Richard</strong>
-          <img src="https://github.com/aguiarichard.png" alt="Foto de Perfil" />
+          <strong>{user.name}</strong>
+          <img src={user.avatar} alt="Foto de Perfil" />
         </div>
       </header>
 
